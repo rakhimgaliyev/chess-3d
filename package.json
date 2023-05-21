@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client-dev": "pnpm --filter client dev",
+    "dev": "nx run-many --parallel --target=dev --projects=server,client",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
