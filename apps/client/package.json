@@ -8,6 +8,7 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^18.11.18",
+    "@types/three": "^0.152.0",
     "esbuild": "^0.14.54",
     "postcss": "^8.4.21",
     "solid-start-node": "^0.2.19",
@@ -21,6 +22,7 @@
     "socket.io-client": "^4.6.1",
     "solid-js": "^1.7.2",
     "solid-start": "^0.2.26",
+    "three": "^0.152.2",
     "undici": "^5.15.1"
   },
   "engines": {

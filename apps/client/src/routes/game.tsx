@@ -1,25 +1,43 @@
-import { Title } from "solid-start";
+import { Title } from 'solid-start';
 import { onCleanup, onMount } from 'solid-js';
 import { socket } from '~/socket';
-import { createStore } from 'solid-js/store';
-import { Socket } from 'socket.io-client';
+import { GameEngine } from '~/GameEngine';
+import FinishButton from '~/components/FinishButton';
 
 export default function Game() {
-  const [store, setStore] = createStore<{ socket: Socket | null }>({
-    socket: null,
-  });
+  let gameRef: HTMLDivElement | undefined;
+  let gameEngine = new GameEngine();
 
   onMount(() => {
-    setStore("socket", socket);
+    socket?.connect();
+  })
+
+  const resize = () => {
+    if (gameEngine?.onResize) {
+      gameEngine?.onResize()
+    }
+  }
+
+  onMount(() => {
+    gameEngine.setup(gameRef as HTMLDivElement)
+    gameEngine.start()
+
+    window.addEventListener("resize", resize);
   })
 
   onCleanup(() => {
-    store.socket?.disconnect();
+    socket?.disconnect();
   });
+
+  onCleanup(() => {
+    window.addEventListener("resize", resize);
+  })
 
   return (
     <main>
       <Title>Game</Title>
+      <FinishButton/>
+      <div ref={gameRef}/>
     </main>
   );
 }
