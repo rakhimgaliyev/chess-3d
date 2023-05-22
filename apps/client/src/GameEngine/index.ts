@@ -154,6 +154,10 @@ export class GameEngine {
       this.#model = gltf.scene;
       this.#scene.add(this.#model);
 
+      this.#model.traverse( ( object ) => {
+        if ( object.isMesh ) object.castShadow = true;
+      } );
+
       this.#skeleton = new THREE.SkeletonHelper(this.#model);
       this.#skeleton.visible = false;
       this.#scene.add(this.#skeleton);
