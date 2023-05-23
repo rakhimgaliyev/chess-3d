@@ -53,6 +53,8 @@ export class GameEngine {
   #currentBaseAction = 'idle'
 
   setup(rootEl: HTMLElement) {
+    THREE.ColorManagement.enabled = false;
+
     this.#initVariables(rootEl)
 
     this.#setLight();
@@ -61,6 +63,7 @@ export class GameEngine {
     this.#createPanel();
 
     this.#setBot();
+    this.#setBoard();
   }
 
   start() {
@@ -379,5 +382,22 @@ export class GameEngine {
       // Fade out
       startAction.fadeOut(duration);
     }
+  }
+
+  #setBoard () {
+    const board = new THREE.Group();
+
+    const cubeGeo = new THREE.BoxGeometry(1, 0.1, 1)
+    const lightMaterial = new THREE.MeshBasicMaterial({ color: 0xc55c5 })
+    const darkMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 })
+
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 8; j++) {
+        const cube = new THREE.Mesh(cubeGeo, (i + j) % 2 === 0 ? lightMaterial : darkMaterial)
+        cube.position.set(i, 0, j)
+        board.add(cube)
+      }
+    }
+    this.#scene.add(board)
   }
 }
